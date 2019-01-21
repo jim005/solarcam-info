@@ -1,14 +1,11 @@
 <?php
 
-
 $webcam = $_GET['url'];
-
 $data = get_solarcam_infos($webcam);
 
 // Output
 header('Content-Type: application/json');
 echo json_encode($data);
-
 
 
 /**
@@ -44,7 +41,6 @@ function get_solarcam_infos($webcam_url) {
     // Device info
     _get_device_info($log_array[0], $data);
 
-
     // GPS information from cellID info
     if ($data['device_network'] === "3G") {
       $log_second_line = $log_array[1]; // with cellid info link
@@ -52,7 +48,6 @@ function get_solarcam_infos($webcam_url) {
       $data['gps_link'] = $log_second_line_data[0];
       _get_gsm_cell_info($data);
     }
-
 
     // Last info from image been taken
     $log_last_line = $log_array[$log_array_count - 2];
@@ -115,7 +110,6 @@ function _get_log_from_image($line, &$data) {
   $line_array = explode(' ', $line);
 
   $solarcam_modern = array(56, 57, 58, 59, 60);
-
   $solarcam_middle = array(49, 54, 55);
   $solarcam_old = array(48); //@@todo : find match on log.
 
@@ -149,17 +143,14 @@ function _get_device_info($line, &$data) {
   $line_array = explode(' ', $line);
 
   $data['device_model'] = $line_array[0] . " " . $line_array[1] . " " . $line_array[2];
-
   $data['device_android_version'] = $line_array[4];
   $data['device_solarcam_version'] = (int) str_replace(array('V'), array(''), $line_array[5]);
   $data['device_name'] = $line_array[6];
   $data['device_network'] = $line_array[7];
   $data['device_frequency_min'] = (int) str_replace(array('min'), array(''), $line_array[8]);
   $data['device_size'] = (int) $line_array[10];
-
   $data['device_frequency_rule'] = $line_array[12];
   $data['device_voltage_limit'] = str_replace(array('no-pics='), array(''), $line_array[13]);
   $data['device_access'] = $line_array[15] . " " . $line_array[16];
-
 
 }
