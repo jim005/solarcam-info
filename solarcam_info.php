@@ -72,7 +72,7 @@ function _get_url_image_and_log($xpath, &$data) {
 
   // Get latest image
   $image_last = $xpath->query('/html/body/div[1]/div/div/a[1]/@href');
-  $image_last_url = $data['webcam_url'] . $image_last->item(0)->value;
+  $image_last_url = str_replace('/big.php?$photo_param=.', '', $data['webcam_url'] . $image_last->item(0)->value);
   $data['image_last_url'] = $image_last_url;
 
   $image_last_small = $xpath->query('/html/body/div[1]/div/div/a[1]/img/@src');
